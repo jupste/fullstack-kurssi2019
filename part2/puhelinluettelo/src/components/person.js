@@ -1,22 +1,8 @@
 import React from 'react'
 
-const SinglePerson = ({ person }) => {
+const Person = ({ person, deleteEntry }) => {
     return (
-      <li>{person.name} {person.number}</li>
-    )
-  }
-
-const Person = ({persons}) => {
-  const rows = () => persons.map(person =>
-    <SinglePerson
-      key={person.name}
-      person={person}
-    />
-  )
-    return (
-      <div>
-      <ul>{rows()}</ul>
-      </div>
+      <li>{person.name} {person.number} <button onClick={deleteEntry}>poista</button></li>
     )
 }
 
