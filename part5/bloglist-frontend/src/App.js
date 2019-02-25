@@ -13,8 +13,8 @@ const App = () => {
   const url = useField('text')
   const [errorMessage, setErrorMessage] = useState(null)
   const [notificationMessage, setNotificationMessage] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const userName = useField('text')
+  const passWord = useField('')
   const [user, setUser] = useState(null)
 
   const compare = (blog1, blog2) => {
@@ -39,6 +39,8 @@ const App = () => {
 
   const handleLogin = async event => {
     event.preventDefault()
+    const username = userName.value
+    const password = passWord.value
     try {
       const loggedUser = await loginService.login({
         username,
@@ -50,8 +52,8 @@ const App = () => {
       )
       blogService.setToken(loggedUser.token)
       setUser(loggedUser)
-      setUsername('')
-      setPassword('')
+      userName.reset()
+      passWord.reset()
     } catch (exception) {
       setErrorMessage('väärä käyttäjätunnus tai salasana')
       setTimeout(() => {
@@ -160,10 +162,10 @@ const App = () => {
       {user === null ? (
         <LoginForm
           className="login"
-          username={username}
-          password={password}
-          setPassword={setPassword}
-          setUsername={setUsername}
+          username={userName.value}
+          password={passWord.value}
+          setPassword={passWord.onChange}
+          setUsername={userName.onChange}
           handleLogin={handleLogin}
         />
       ) : (
