@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-
-const Blog = ({ blog }) => {
+import PropTypes from 'prop-types'
+const Blog = ({ blog, addLike, deleteBlog, renderDelete }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -10,23 +10,26 @@ const Blog = ({ blog }) => {
   }
   const [showAll, setVisible] = useState(false)
 
-  const showInfo = blog => (
+  const showInfo = (blog, addLike, deleteBlog, renderDelete) => (
     <div>
       {showAll ? (
-        <div>
-          <div>
+        <div className="expanded">
+          <div className="titleAndAuthor">
             Blogi: {blog.title}, Tekijä: {blog.author}
           </div>
-          <div>
+          <div className="url">
             URL: <a href={blog.url}> {blog.url}</a>
           </div>
           {blog.likes} tykkäystä
-          <button>tykkää</button>
-          <div> lisännyt {blog.user.name}</div>
+          <button onClick={addLike}>tykkää</button>
+          <div className="user"> lisännyt {blog.user.name}</div>
         </div>
       ) : (
-        `Blogi: ${blog.title}, Tekijä: ${blog.author}`
+        <div className="simple">
+          Blogi: {blog.title}, Tekijä: {blog.author}
+        </div>
       )}
+      {renderDelete ? <button onClick={deleteBlog}>poista</button> : <div />}
     </div>
   )
   const toggleShow = () => {
@@ -35,9 +38,16 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle}>
-      <div onClick={toggleShow}>{showInfo(blog)}</div>
+      <div onClick={toggleShow}>
+        {showInfo(blog, addLike, deleteBlog, renderDelete)}
+      </div>
     </div>
   )
 }
-
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  renderDelete: PropTypes.bool.isRequired,
+  addLike: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired
+}
 export default Blog
