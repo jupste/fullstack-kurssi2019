@@ -14,7 +14,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [notificationMessage, setNotificationMessage] = useState(null)
   const userName = useField('text')
-  const passWord = useField('')
+  const passWord = useField('password')
   const [user, setUser] = useState(null)
 
   const compare = (blog1, blog2) => {
