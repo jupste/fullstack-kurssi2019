@@ -30,7 +30,7 @@ const App = () => {
   }, [])
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
+    if (JSON.parse(loggedUserJSON) !== null) {
       const loggedUser = JSON.parse(loggedUserJSON)
       setUser(loggedUser)
       blogService.setToken(loggedUser.token)
@@ -89,6 +89,7 @@ const App = () => {
       setNotificationMessage(null)
     }, 3500)
   }
+  const { reset, ...inputAuthor } = author
   const blogForm = () => (
     <Togglable buttonLabel="lisää uusi">
       <h2>lisää uusi</h2>
@@ -100,12 +101,7 @@ const App = () => {
           onChange={title.onChange}
         />
         <br />
-        author{' '}
-        <input
-          type={author.type}
-          value={author.value}
-          onChange={author.onChange}
-        />
+        author <input {...inputAuthor} />
         <br />
         url
         <input type={url.type} value={url.value} onChange={url.onChange} />
@@ -162,8 +158,8 @@ const App = () => {
       {user === null ? (
         <LoginForm
           className="login"
-          username={userName.value}
-          password={passWord.value}
+          username={userName}
+          password={passWord}
           setPassword={passWord.onChange}
           setUsername={userName.onChange}
           handleLogin={handleLogin}
